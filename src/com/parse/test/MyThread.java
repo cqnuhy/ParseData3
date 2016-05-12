@@ -19,16 +19,16 @@ import org.apache.poi.ss.usermodel.Sheet;
 public class MyThread implements Runnable{
 
 	
-	private File train_zh_xls;
+	private File xls;
 	private int rate;
 	private List<String> clcListOfDict;
 	private Map<Integer,String> map;
 	private List<String> result;
 	private Map<String,List<String>> source;
 
-	public MyThread(File train_zh_xls,int rate,List<String> clcListOfDict,
+	public MyThread(File xls,int rate,List<String> clcListOfDict,
 			 Map<Integer,String> map,Map<String,List<String>> source) {
-		this.train_zh_xls = train_zh_xls;
+		this.xls = xls;
 		this.rate = rate;
 		this.clcListOfDict = clcListOfDict;
 		this.map = map;
@@ -42,7 +42,7 @@ public class MyThread implements Runnable{
 		try {
 			// 通过分词频率和分类号字典找出train中符合要求的分类号
 			List<String> clcListOfTrain = new ArrayList<String>();
-			HSSFWorkbook book2 = new HSSFWorkbook(new FileInputStream(train_zh_xls));
+			HSSFWorkbook book2 = new HSSFWorkbook(new FileInputStream(xls));
 			Sheet sheet = book2.getSheetAt(0);
 			for (int j =0; j < sheet.getPhysicalNumberOfRows()-1; j++) {
 				Row row = sheet.getRow(j);
@@ -81,7 +81,7 @@ public class MyThread implements Runnable{
 						continue;
 					}
 				}
-				String resultFileName = train_zh_xls.getParent()+"\\"+fileName+"_filter_"+(0==rate?"all":rate);
+				String resultFileName = xls.getParent()+"\\"+fileName+"_filter_"+(0==rate?"all":rate);
 				// 统一关闭输出流
 				File file = new File(resultFileName+"."+fileSuffix);
 				if(file.getParentFile() != null){
